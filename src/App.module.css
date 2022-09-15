@@ -1,0 +1,12 @@
+.wrapper {
+    width: 100%; /* Por padrão, já é 100% */
+    max-width: 70rem; /* Largura de acordo com o Figma é de 1120. Para achar o valor, basta dividir 1120/16 = 70rem */
+    margin: 2rem auto; /* 2rem em cima e em baixo e que fique centralizado na tela */
+    padding: 0 1rem; /* Se diminui a tela para um tamanho menor que 70rem, o conteúdo dê um espaço nas laterais de 16px */
+
+    display: grid;
+    grid-template-columns: 256px 1fr; /* 1 primeira coluna tem um tamanho fixo de 256 e a segunda (content) de acordo com o tamanho da tala */
+    /*  1fr é uma unidade de medida do grid para tamanho flexível*/
+    gap: 2rem; /* 32px/16px = 2 */
+    align-items: flex-start; /* Para que começe no topo e na esquerda */
+}
