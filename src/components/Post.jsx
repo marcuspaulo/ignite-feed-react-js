@@ -24,6 +24,16 @@ export function Post() {
                 <p> Teste espaço: lorem ipsum dolor sit amet, consectetur</p>
                 <a href="#">http://localhost</a>{'  '}<a href="#">http://localhost:3000</a>
             </div>
+
+            <form className={styles.commentForm}>
+                <strong>Deixe seu comentário</strong>
+
+                <textarea placeholder="Deixe um comentário"/>
+
+                <footer>
+                    <button type="submit">Publicar</button>
+                </footer>
+            </form>
         </article>
     )
 }
