@@ -1,28 +1,53 @@
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR'
+
+import { Avatar } from './Avatar';
+import { Comment } from './Comment';
 import styles from './Post.module.css';
 
-export function Post() {
+export function Post({ author, publishedAt, content }) {
+
+    // Utilizando o Intl, alternativa date-fns
+    // const publishedDateFormatted = new Intl.DateTimeFormat(`pt-PT`, {
+    //     day: '2-digit',
+    //     month: 'long',
+    //     hour: '2-digit',
+    //     minute: '2-digit'
+    // }).format(publishedAt);
+
+    const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+        locale: ptBR
+    });
+
+    const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+        locale: ptBR,
+        addSuffix: true
+    })
+
     return (
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                <img
-                    className={styles.avatar}
-                    src="https://avatars.githubusercontent.com/u/2917521?v=4" />
+                <Avatar src={author.avatarUrl} />
                     <div className={styles.authorInfo}>
-                        <strong>Marcus Paulo</strong>
-                        <span>Web Developer</span>
+                        <strong>{author.name}</strong>
+                        <span>{author.role}</span>
                     </div>
                 </div>
 
-                <time title="14 de Setembro de 2022" dateTime="2002-09-14">Publicado a </time>
+                <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
+                    {publishedDateRelativeToNow}
+                </time>
             </header>
 
             <div className={styles.content}>
-                <p>lorem ipsum dolor sit amet, consectetur</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                <p>Voluptatibus, explicabo! Deserunt voluptates velit nisi tenetur consequatur architecto. Saepe magni voluptates quia commodi enim, fugiat facere. Veritatis quos veniam soluta obcaecati!</p>
-                <p> Teste espaço: lorem ipsum dolor sit amet, consectetur</p>
-                <a href="#">http://localhost</a>{'  '}<a href="#">http://localhost:3000</a>
+                {content.map(line => {
+                   if (line.type === 'paragraph') {
+                    return <p>{line.content}</p>
+                   } else if (line.type === 'link') {
+                    return <p><a href="#">{line.content}</a> </p>
+                   }
+                })}
             </div>
 
             <form className={styles.commentForm}>
@@ -34,6 +59,12 @@ export function Post() {
                     <button type="submit">Publicar</button>
                 </footer>
             </form>
+
+            <div className={styles.commentList}>
+                <Comment />
+                <Comment />
+                <Comment />
+            </div>
         </article>
     )
 }
